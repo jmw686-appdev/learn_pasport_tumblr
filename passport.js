@@ -29,25 +29,25 @@ passport.use(new localStrategy(
 ));
 
 // tumblr auth
-passport.use(new TumblrStrategy({
-    consumerKey: process.env.TUMBLR_CONSUMER_KEY,
-    consumerSecret: process.env.TUMBLR_SECRET_KEY,
-    callbackURL: "http://localhost:3000/auth/tumblr/callback"
-  },
-  function(token, tokenSecret, user, done) {
-    // asynchronous verification, for effect...
-    process.nextTick(function () {
-
-      // To keep the example simple, the user's Tumblr profile is returned to
-      // represent the logged-in user.  In a typical application, you would want
-      // to associate the Tumblr account with a user record in your database,
-      // and return that user instead.
-      // TODO find current user and save the username, access_token, and access_secret
-      console.log(user);
-      return done(null, user);
-    });
-  }
-));
+// passport.use(new TumblrStrategy({
+//     consumerKey: process.env.TUMBLR_CONSUMER_KEY,
+//     consumerSecret: process.env.TUMBLR_SECRET_KEY,
+//     callbackURL: "http://localhost:3000/auth/tumblr/callback"
+//   },
+//   function(token, tokenSecret, user, done) {
+//     // asynchronous verification, for effect...
+//     process.nextTick(function () {
+//
+//       // To keep the example simple, the user's Tumblr profile is returned to
+//       // represent the logged-in user.  In a typical application, you would want
+//       // to associate the Tumblr account with a user record in your database,
+//       // and return that user instead.
+//       // TODO find current user and save the username, access_token, and access_secret
+//       console.log(user);
+//       return done(null, user);
+//     });
+//   }
+// ));
 
 // Simple route middleware to ensure user is authenticated.
 //   Use this route middleware on any resource that needs to be protected.  If
@@ -55,6 +55,8 @@ passport.use(new TumblrStrategy({
 //   the request will proceed.  Otherwise, the user will be redirected to the
 //   login page.
 function ensureAuthenticated(req, res, next) {
-  if (req.isAuthenticated()) { return next(); }
+  if (req.isAuthenticated()) {
+    console.log("auth right");
+    return next(); }
   res.redirect('/users/login');
 }
