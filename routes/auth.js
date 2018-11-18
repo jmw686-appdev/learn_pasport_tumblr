@@ -9,7 +9,7 @@ const User = require('../models/user');
 // tumblr auth
 
 router.get('/tumblr',
-  passport.authenticate('tumblr'));
+  passport.authenticate(['local', 'tumblr']));
 
 router.get('/tumblr/callback',
   passport.authenticate('tumblr', { failureRedirect: '/users/login' }),
