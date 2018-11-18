@@ -1,0 +1,8 @@
+extends /layout
+
+block content
+  div
+    a(href='/users/logout') logout
+  ul
+    each user in users
+      li= 'User: ' + user.username

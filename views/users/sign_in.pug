@@ -1,0 +1,14 @@
+extends /layout
+
+block content
+  h1 Sign In
+    =user
+
+  form(action="/users/login", method="post")
+    div(class="form-group")
+      label(for="username") Username
+      input(name="username" class="form-control" id="username" placeholder="Enter Username")
+    div(class="form-group")
+      label(for="password") Password
+      input(name="password" type="password" class="form-control" id="password")
+    button(type="submit" class="btn btn-primary") Submit
