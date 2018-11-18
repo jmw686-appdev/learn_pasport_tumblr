@@ -10,6 +10,7 @@ const mongoose = require('mongoose');
 const logger = require('morgan');
 
 const indexRouter = require('./routes/index');
+const authRouter = require('./routes/auth');
 const usersRouter = require('./routes/users');
 
 const app = express();
@@ -50,6 +51,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
+app.use('/auth', authRouter);
 app.use('/users', usersRouter);
 app.locals.basedir = app.get('views');
 
@@ -69,16 +71,5 @@ app.use(function(err, req, res, next) {
   res.render('error');
 });
 
-// tumblr auth
-
-app.get('/auth/tumblr',
-  passport.authenticate('tumblr'));
-
-app.get('/auth/tumblr/callback',
-  passport.authenticate('tumblr', { failureRedirect: '/users/login' }),
-  function(req, res) {
-    // Successful authentication, redirect home.
-    res.redirect('/');
-  });
 
 module.exports = app;
