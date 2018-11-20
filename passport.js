@@ -34,7 +34,7 @@ passport.use(new TumblrStrategy({
     consumerSecret: process.env.TUMBLR_CONSUMER_SECRET,
     callbackURL: "http://localhost:3000/auth/tumblr/callback"
   },
-  function(token, tokenSecret, user, done) {
+  function(token, tokenSecret, profile, done) {
     // asynchronous verification, for effect...
     process.nextTick(function () {
 
@@ -43,8 +43,13 @@ passport.use(new TumblrStrategy({
       // to associate the Tumblr account with a user record in your database,
       // and return that user instead.
       // TODO find current user and save the username, access_token, and access_secret
-      console.log(user);
-      return done(null, user);
+      // User.findOrCreate({ access_token: token, access_secret: tokenSecret }, function (err, user) {
+      //   return done(err, user);
+      // });
+      console.log(profile);
+      console.log(token);
+      console.log(tokenSecret);
+      return done(null, profile);
     });
   }
 ));
@@ -56,7 +61,6 @@ passport.use(new TumblrStrategy({
 //   login page.
 function ensureAuthenticated(req, res, next) {
   if (req.isAuthenticated()) {
-    console.log("auth right");
     return next(); }
   res.redirect('/users/login');
 }
