@@ -6,3 +6,4 @@ block content
   ul
     each user in users
       li= 'User: ' + user.username
+        p access_secret: #{user.access_token}

@@ -15,15 +15,15 @@ const usersRouter = require('./routes/users');
 
 const app = express();
 
-mongoose.connect('mongodb://localhost:27017/passport-tumblr-db-test',
-  { useNewUrlParser: true,
-    useCreateIndex: true
-  });
-
-// mongoose.connect('mongodb://' + process.env.MLAB_USER + ':' + process.env.MLAB_PW + process.env.MLAB_DB,
+// mongoose.connect('mongodb://localhost:27017/passport-tumblr-db-test',
 //   { useNewUrlParser: true,
 //     useCreateIndex: true
 //   });
+
+mongoose.connect('mongodb://' + process.env.MLAB_USER + ':' + process.env.MLAB_PW + process.env.MLAB_DB,
+  { useNewUrlParser: true,
+    useCreateIndex: true
+  });
 
 const db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));

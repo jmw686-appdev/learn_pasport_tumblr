@@ -24,7 +24,7 @@ router.get('/tumblr/callback',function (req, res) {
   console.log(req.query);
   access_token = req.query.oauth_token
   access_secret = req.query.oauth_verifier
-  User.findOneAndUpdate({_id: current_user.id }, {access_token: access_token, access_secret: access_secret}, options, (error, doc) => {
+  User.findOneAndUpdate({_id: current_user.id }, {$set: {access_token: access_token, access_secret: access_secret}}, {new: true}, (error, doc) => {
     // error: any errors that occurred
     // doc: the document before updates are applied if `new: false`, or after updates if `new = true`
   });
