@@ -1,0 +1,31 @@
+extends layout
+
+block content
+  nav(aria-label="breadcrumb")
+    ol(class="breadcrumb")
+      li(class="breadcrumb-item")
+        a(href="/") Home
+      li(class="breadcrumb-item active", aria-current="page") Your Likes
+  h1 User likes
+  div(class="card-columns")
+    each val in likes
+      div(class="card my-4")
+        div(class="card-body text-center")
+          a(href=val.post_url class="text-dark")
+            div
+              if val.type === "photo"
+                img(src=val.photos[0].original_size.url, class="card-img-top media")
+              else if val.type === "video"
+                video(controls, class="media")
+                  source(src=val.video_url)
+              h5(class="card-title")
+                != val.summary
+              p(class="card-text")
+                != val.body
+              p(class="card-text")
+                != val.caption
+        div(class="card-footer")
+          button(class="btn btn-outline-dark") Unlike
+  if offset > 20
+    a(href="/users/likes/" + (offset-40)) Previous Page
+  a(href="/users/likes/" + offset) Next Page
