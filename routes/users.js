@@ -3,7 +3,7 @@ const router = express.Router();
 require('../passport');
 const connect = require('connect-ensure-login');
 const passport = require('passport');
-const tumblr = require('tumblr.js');
+// const tumblr = require('tumblr.js');
 const User = require('../models/user');
 
 /* GET users listing. */
@@ -13,12 +13,13 @@ router.get('/', connect.ensureLoggedIn('/users/login'), function(req, res, next)
   });
 });
 
-router.get('/likes:offset', function(req, res){
+router.get('/likes/:offset', function(req, res){
   // Authenticate via OAuth
   let offset = req.params.offset
+  var tumblr = require('tumblr.js');
   let client = tumblr.createClient({
-    consumer_key: process.env.TUMBLR_CONSUMER,
-    consumer_secret: process.env.TUMBLR_SECRET,
+    consumer_key: process.env.TUMBLR_CONSUMER_KEY,
+    consumer_secret: process.env.TUMBLR_CONSUMER_SECRET,
     token: req.user.access_token,
     token_secret: req.user.access_secret
   });
@@ -27,9 +28,16 @@ router.get('/likes:offset', function(req, res){
   // Show user's blog likes
 
   client.userLikes({offset: offset}, function(err, data) {
-    // console.log(data.liked_posts)
-    likes = [...data.liked_posts]
-    res.render("user/likes", {likes: likes, offset: (parseInt(offset) + 20) });
+    console.log(err);
+    if (!err) {
+      console.log(data.liked_posts)
+      likes = [...data.liked_posts]
+      res.render("users/likes", {likes: likes, offset: (parseInt(offset) + 20) });
+    }
+    else {
+      console.log(req.user.access_token);
+      console.log(req.user.access_secret);
+    }
   });
 });
 // Login
